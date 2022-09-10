@@ -1,26 +1,29 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\user\\Downloads\\TechnicalTest\\TAP\\Code\\url-shortener\\url-shortener-backend\\url-shortener-backend\\url-shortener-backend.csproj": {}
+    "C:\\Users\\hendrick.ling99\\Downloads\\wo\\Code\\url-shortener\\url-shortener-backend\\url-shortener-backend\\url-shortener-backend.csproj": {}
   },
   "projects": {
-    "C:\\Users\\user\\Downloads\\TechnicalTest\\TAP\\Code\\url-shortener\\url-shortener-backend\\url-shortener-backend\\url-shortener-backend.csproj": {
+    "C:\\Users\\hendrick.ling99\\Downloads\\wo\\Code\\url-shortener\\url-shortener-backend\\url-shortener-backend\\url-shortener-backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\user\\Downloads\\TechnicalTest\\TAP\\Code\\url-shortener\\url-shortener-backend\\url-shortener-backend\\url-shortener-backend.csproj",
+        "projectUniqueName": "C:\\Users\\hendrick.ling99\\Downloads\\wo\\Code\\url-shortener\\url-shortener-backend\\url-shortener-backend\\url-shortener-backend.csproj",
         "projectName": "url-shortener-backend",
-        "projectPath": "C:\\Users\\user\\Downloads\\TechnicalTest\\TAP\\Code\\url-shortener\\url-shortener-backend\\url-shortener-backend\\url-shortener-backend.csproj",
-        "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\user\\Downloads\\TechnicalTest\\TAP\\Code\\url-shortener\\url-shortener-backend\\url-shortener-backend\\obj\\",
+        "projectPath": "C:\\Users\\hendrick.ling99\\Downloads\\wo\\Code\\url-shortener\\url-shortener-backend\\url-shortener-backend\\url-shortener-backend.csproj",
+        "packagesPath": "C:\\Users\\hendrick.ling99\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\hendrick.ling99\\Downloads\\wo\\Code\\url-shortener\\url-shortener-backend\\url-shortener-backend\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\hendrick.ling99\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
-          "C:\\Aastar\\reactbusinessportal\\AASTAR_WebAPI\\MySQLDB": {},
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
@@ -40,6 +43,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[6.0.6, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
@@ -51,7 +58,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -63,7 +71,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.100\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
         }
       }
     }
