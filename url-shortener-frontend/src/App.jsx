@@ -25,11 +25,15 @@ function App() {
     setUrl(e.target.value);
   }
 
+  const jsonConfig = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
   function shortenUrl() {
     toast.promise(
-      axios.post("http://localhost:62762/url/fullPath", {
-        url,
-      }),
+      axios.post("http://localhost:62762/url/shortenUrl", url, jsonConfig),
       {
         pending: {
           render() {
