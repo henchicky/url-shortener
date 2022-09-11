@@ -223,6 +223,15 @@
           "lib/netstandard2.0/Microsoft.OpenApi.dll": {}
         }
       },
+      "Nanoid/2.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.1/Nanoid.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/Nanoid.dll": {}
+        }
+      },
       "Npgsql/6.0.6": {
         "type": "package",
         "dependencies": {
@@ -704,6 +713,23 @@
         "microsoft.openapi.nuspec"
       ]
     },
+    "Nanoid/2.1.0": {
+      "sha512": "V0eSnsq+Oeqf9uVPBH02kYE5p92s6Revskt4Cmqg3DIsiDoqrKKdlmqXvaFaehO3pS1Osu9BTtl3lMSRqPlbzw==",
+      "type": "package",
+      "path": "nanoid/2.1.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Nanoid.dll",
+        "lib/net45/Nanoid.xml",
+        "lib/netstandard2.0/Nanoid.dll",
+        "lib/netstandard2.0/Nanoid.xml",
+        "lib/netstandard2.1/Nanoid.dll",
+        "lib/netstandard2.1/Nanoid.xml",
+        "nanoid.2.1.0.nupkg.sha512",
+        "nanoid.nuspec"
+      ]
+    },
     "Npgsql/6.0.6": {
       "sha512": "IIwnoJp0sFkhAydT/KKe/0NhlJKhYPIrXSE95AuU/2dqHNI9alxvjClJSGL+QE8NGqq1SFn+NenxVtm/JYsrJg==",
       "type": "package",
@@ -899,6 +925,7 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "Microsoft.EntityFrameworkCore.Design >= 6.0.8",
+      "Nanoid >= 2.1.0",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 6.0.6",
       "Swashbuckle.AspNetCore >= 6.2.3"
     ]
@@ -951,6 +978,10 @@
             "suppressParent": "All",
             "target": "Package",
             "version": "[6.0.8, )"
+          },
+          "Nanoid": {
+            "target": "Package",
+            "version": "[2.1.0, )"
           },
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",

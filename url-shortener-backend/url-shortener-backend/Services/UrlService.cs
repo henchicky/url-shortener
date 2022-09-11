@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore;
 using url_shortener_backend.Entities;
 using url_shortener_backend.Helpers;
 
@@ -23,25 +22,23 @@ public class UrlService : IUrlService
     {
         var urlData = new UrlData
         {
-            Url = url
+            Url = url,
+            ShortUrl = Nanoid.Nanoid.Generate(),
         };
         _context.UrlDatas.Add(urlData);
-        _context.SaveChanges();
-        urlData.ShortUrl = WebEncoders.Base64UrlEncode(BitConverter.GetBytes(urlData.Id));
         _context.SaveChanges();
         return urlData.ShortUrl;
     }
 
     public string GetFullUrl(string url)
     {
-        var id = BitConverter.ToInt32(WebEncoders.Base64UrlDecode(url));
-        var result = _context.UrlDatas.Find(id);
+        var result = _context.UrlDatas.FirstOrDefault(x => x.ShortUrl == url);
         
         if (result != null)
         {
             return result.Url;
         }
-
+        
         throw new Exception("No such url found");
     }
 }
