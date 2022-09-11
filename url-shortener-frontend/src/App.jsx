@@ -14,10 +14,11 @@ import copy from "copy-to-clipboard";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
+import { lightBlue } from "@mui/material/colors";
 
 function App() {
   const [url, setUrl] = useState(null);
-  const [newRequest, setNewRequest] = useState(false);
+  const [newRequest, setNewRequest] = useState(true);
   const [loading, setLoading] = useState(false);
 
   function handleChange(e) {
@@ -32,14 +33,14 @@ function App() {
       {
         pending: {
           render() {
-            setNewRequest(false);
+            setNewRequest(true);
             setLoading(true);
             return "Shortening...";
           },
         },
         success: {
           render(res) {
-            setNewRequest(true);
+            setNewRequest(false);
             setUrl(res.data.data);
             return "Shortened successfully";
           },
@@ -55,10 +56,11 @@ function App() {
 
   function copyToClipboard() {
     copy(url);
+    toast.info("Copied to clipboard");
   }
 
-  function newUrl() {
-    setSubmitStatus(false);
+  function handleNewRequest() {
+    setNewRequest(true);
     setUrl(null);
   }
 
@@ -79,7 +81,7 @@ function App() {
         direction="column"
         alignItems="center"
         justifyContent="center"
-        style={{ minHeight: "100vh" }}
+        style={{ minHeight: "100vh", backgroundColor: lightBlue }}
       >
         <Grid item xs={5}>
           <Box mx="auto">
@@ -88,12 +90,12 @@ function App() {
                 <Typography align="center" variant="h4">
                   Shorten Now
                 </Typography>
-                <FormControl disabled={newRequest}>
+                <FormControl disabled={!newRequest}>
                   <OutlinedInput
                     value={url || ""}
                     onChange={handleChange}
                     endAdornment={
-                      newRequest && (
+                      !newRequest && (
                         <Button variant="outlined" onClick={copyToClipboard}>
                           Copy
                         </Button>
@@ -103,16 +105,16 @@ function App() {
                     sx={{ my: 2 }}
                   />
                   {newRequest ? (
-                    <Button onClick={newUrl} variant="contained">
-                      Shorten another url
-                    </Button>
-                  ) : (
                     <Button
                       onClick={shortenUrl}
                       variant="contained"
                       disabled={!url}
                     >
                       Shorten URl
+                    </Button>
+                  ) : (
+                    <Button onClick={handleNewRequest} variant="contained">
+                      Shorten another url
                     </Button>
                   )}
                 </FormControl>
