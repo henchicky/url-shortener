@@ -6,6 +6,7 @@ import {
   FormControl,
   OutlinedInput,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
@@ -44,7 +45,7 @@ function Home() {
         success: {
           render(res) {
             setNewRequest(false);
-            setUrl(res.data.data);
+            setUrl(window.location.href + res.data.data);
             return "Shortened successfully";
           },
         },
@@ -64,16 +65,8 @@ function Home() {
 
   function handleNewRequest() {
     setNewRequest(true);
+    setLoading(false);
     setUrl(null);
-  }
-
-  function isValidUrl(url) {
-    try {
-      url = new URL(url);
-    } catch (_) {
-      return false;
-    }
-    return url.protocol === "http:" || url.protocol === "https:";
   }
 
   return (
@@ -113,7 +106,7 @@ function Home() {
                       variant="contained"
                       disabled={!url}
                     >
-                      {loading ? <CircularProgress /> : "Shorten URl"}s
+                      {loading ? <CircularProgress /> : "Shorten URl"}
                     </Button>
                   ) : (
                     <Button onClick={handleNewRequest} variant="contained">

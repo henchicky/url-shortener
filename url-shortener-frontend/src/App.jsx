@@ -1,7 +1,6 @@
 import { ToastContainer } from "react-toastify";
 import Home from "./pages/HomePage";
 import PageNotFound from "./pages/PageNotFound";
-
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
