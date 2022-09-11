@@ -1,20 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using url_shortener_backend.Entities;
 
-namespace url_shortener_backend;
+namespace url_shortener_backend.Helpers;
 
 public class DataContext : DbContext
 {
-    private readonly IConfiguration _configuration;
+    public DataContext(DbContextOptions<DataContext> options):base(options) {  }
 
-    public DataContext(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-    {
-        options.UseNpgsql(_configuration.GetConnectionString("UrlShortenerDatabase"));
-    }
-
-    // public DbSet<User> Users { get; set; }
+    public DbSet<UrlData> UrlDatas { get; set; }
 }
