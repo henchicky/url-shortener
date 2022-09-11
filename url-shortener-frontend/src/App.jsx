@@ -1,18 +1,14 @@
 import {
   Button,
   Card,
-  TextField,
   Grid,
   CardContent,
   FormControl,
   InputLabel,
   OutlinedInput,
-  InputAdornment,
-  IconButton,
+  Typography,
 } from "@mui/material";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { Box } from "@mui/system";
-import axios from "axios";
 import { useState } from "react";
 import "./App.css";
 
@@ -24,7 +20,9 @@ function App() {
     setUrl(e.target.value);
   }
 
-  function submit() {
+  function shortenUrl() {
+    if (!isValidUrl(url)) alert("Invalid url");
+
     setDisabled(true);
     setUrl("www.short.com");
     // axios.post("");
@@ -37,6 +35,15 @@ function App() {
     setUrl(null);
   }
 
+  function isValidUrl(url) {
+    try {
+      url = new URL(url);
+    } catch (_) {
+      return false;
+    }
+    return url.protocol === "http:" || url.protocol === "https:";
+  }
+
   return (
     <Grid
       container
@@ -46,48 +53,38 @@ function App() {
       justifyContent="center"
       style={{ minHeight: "100vh" }}
     >
-      <Grid item xs={3}>
-        <Box m="auto">
+      <Grid item xs={5}>
+        <Box mx="auto">
           <Card>
             <CardContent>
-              <TextField
-                placeholder="Enter your url here"
-                value={url || ""}
-                onChange={handleChange}
-                disabled={disabled}
-              />
-              <FormControl sx={{ m: 1, width: "25ch" }} variant="outlined">
-                <InputLabel htmlFor="outlined-adornment-password">
-                  Password
-                </InputLabel>
+              <Typography align="center" variant="h4">
+                Shorten Now
+              </Typography>
+              <FormControl disabled={disabled}>
                 <OutlinedInput
-                  id="outlined-adornment-password"
-                  type={values.showPassword ? "text" : "password"}
-                  value={values.password}
-                  onChange={handleChange("password")}
+                  value={url}
+                  onChange={handleChange}
                   endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
-                        edge="end"
-                      >
-                        <ContentCopyIcon />
-                      </IconButton>
-                    </InputAdornment>
+                    disabled && <Button variant="outlined">Copy</Button>
                   }
-                  label="Password"
+                  placeholder="Enter your url here"
+                  sx={{ my: 2 }}
                 />
+                {!disabled ? (
+                  <Button onClick={shortenUrl} variant="contained">
+                    Shorten URl
+                  </Button>
+                ) : (
+                  <>
+                    <Button onClick={copy} variant="outlined">
+                      Copy
+                    </Button>
+                    <Button onClick={newUrl} variant="contained">
+                      Shorten another url
+                    </Button>
+                  </>
+                )}
               </FormControl>
-              {!disabled ? (
-                <Button onClick={submit}>Shorten URl</Button>
-              ) : (
-                <>
-                  <Button onClick={copy}>Copy</Button>
-                  <Button onClick={newUrl}>Shorten another url</Button>
-                </>
-              )}
             </CardContent>
           </Card>
         </Box>
