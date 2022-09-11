@@ -99,17 +99,23 @@ function Home() {
                     }
                     placeholder="Enter your url here"
                     sx={{ my: 2 }}
+                    size="small"
                   />
                   {newRequest ? (
                     <Button
                       onClick={shortenUrl}
                       variant="contained"
                       disabled={!url}
+                      size="small"
                     >
                       {loading ? <CircularProgress /> : "Shorten URl"}
                     </Button>
                   ) : (
-                    <Button onClick={handleNewRequest} variant="contained">
+                    <Button
+                      onClick={handleNewRequest}
+                      variant="contained"
+                      size="small"
+                    >
                       Shorten another url
                     </Button>
                   )}
