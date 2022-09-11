@@ -4,36 +4,61 @@ import {
   Grid,
   CardContent,
   FormControl,
-  InputLabel,
   OutlinedInput,
   Typography,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
+import copy from "copy-to-clipboard";
+import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 function App() {
   const [url, setUrl] = useState(null);
-  const [disabled, setDisabled] = useState(false);
+  const [newRequest, setNewRequest] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   function handleChange(e) {
     setUrl(e.target.value);
   }
 
   function shortenUrl() {
-    if (!isValidUrl(url)) toast.error("Invalid URL");
-
-    setDisabled(true);
-    setUrl("www.short.com");
-    // axios.post("");
+    toast.promise(
+      axios.post("http://localhost:62762/url/fullPath", {
+        url,
+      }),
+      {
+        pending: {
+          render() {
+            setNewRequest(false);
+            setLoading(true);
+            return "Shortening...";
+          },
+        },
+        success: {
+          render(res) {
+            setNewRequest(true);
+            setUrl(res.data.data);
+            return "Shortened successfully";
+          },
+        },
+        error: {
+          render() {
+            return "Invalid Url. Please try again.";
+          },
+        },
+      }
+    );
   }
 
-  function copy() {}
+  function copyToClipboard() {
+    copy(url);
+  }
 
   function newUrl() {
-    setDisabled(false);
+    setSubmitStatus(false);
     setUrl(null);
   }
 
@@ -63,23 +88,31 @@ function App() {
                 <Typography align="center" variant="h4">
                   Shorten Now
                 </Typography>
-                <FormControl disabled={disabled}>
+                <FormControl disabled={newRequest}>
                   <OutlinedInput
-                    value={url}
+                    value={url || ""}
                     onChange={handleChange}
                     endAdornment={
-                      disabled && <Button variant="outlined">Copy</Button>
+                      newRequest && (
+                        <Button variant="outlined" onClick={copyToClipboard}>
+                          Copy
+                        </Button>
+                      )
                     }
                     placeholder="Enter your url here"
                     sx={{ my: 2 }}
                   />
-                  {!disabled ? (
-                    <Button onClick={shortenUrl} variant="contained">
-                      Shorten URl
-                    </Button>
-                  ) : (
+                  {newRequest ? (
                     <Button onClick={newUrl} variant="contained">
                       Shorten another url
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={shortenUrl}
+                      variant="contained"
+                      disabled={!url}
+                    >
+                      Shorten URl
                     </Button>
                   )}
                 </FormControl>
