@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using url_shortener_backend.Entities;
 using url_shortener_backend.Helpers;
+using url_shortener_backend.Services;
 
 namespace url_shortener_backend.Controllers;
 
@@ -9,69 +8,36 @@ namespace url_shortener_backend.Controllers;
 [Route("[controller]")]
 public class UrlController : ControllerBase
 {
-    private readonly DataContext _context;
+    private readonly IUrlService _urlService;
 
-    public UrlController(DataContext context)
+    public UrlController(DataContext context, IUrlService urlService)
     {
-        _context = context;
+        _urlService = urlService;
     }
 
-    [HttpPost("shorten")]
-    public IActionResult Shorten([FromBody] string url)
+    [HttpPost("shortenUrl")]
+    public IActionResult ShortenUrl([FromBody] string url)
     {
-        if (IsValidUrl(url))
+        if (_urlService.IsValidUrl(url))
         {
-            var shortUrl = shortenUrl(url);
-            UrlData urlData = new UrlData
-            {
-                ShortUrl = shortUrl,
-                Url = url
-            };
-            _context.UrlDatas.Add(urlData);
-            _context.SaveChanges();
-            return Ok(shortUrl);
+            var result = _urlService.ShortenUrl(url);
+            return Ok(result);
         }
 
         return BadRequest("Invalid Url");
     }
 
-    [HttpPost("getFullPath")]
-    public IActionResult GetFullPath([FromBody] string url)
+    [HttpPost("getFullUrl")]
+    public IActionResult GetFullUrl([FromBody] string parsedUrl)
     {
-        if (url == "hello")
+        try
         {
-            var fullpath = "www.youtube.com";
-            return Ok(fullpath);
+            var result = _urlService.GetFullUrl(parsedUrl);
+            return Ok(result);
         }
-
-        return NotFound("No such url found");
-    }
-
-    private bool IsValidUrl(string url)
-    {
-        if (url == "hello")
+        catch (Exception)
         {
-            return true;
+            return NotFound("No such url found");
         }
-        else
-        {
-            return false;
-        }
-    }
-
-    private string shortenUrl(string url)
-    {
-        return "www.youtube.com";
-    }
-
-    private async Task<string> getFullUrl(string url)
-    {
-        var result = await _context.UrlDatas.SingleOrDefaultAsync(x => x.ShortUrl == url);
-        if (result != null)
-        {
-            return result.Url;
-        }
-
-        throw new Exception("No such url found");
     }
 }
