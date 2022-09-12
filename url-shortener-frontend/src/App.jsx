@@ -4,24 +4,14 @@ import PageNotFound from "./pages/PageNotFound";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
-import axios from "axios";
+import AxiosService from "./services/AxiosService";
+
 function App() {
   let location = useLocation();
   let navigate = useNavigate();
 
-  const jsonConfig = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
   function Redirect() {
-    axios
-      .post(
-        "http://localhost:62762/url/getFullUrl",
-        location.pathname.substring(1),
-        jsonConfig
-      )
+    AxiosService.post("getFullUrl", location.pathname.substring(1))
       .then((res) => {
         console.log(res.data);
         let urlPath = res.data;

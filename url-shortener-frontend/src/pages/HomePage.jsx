@@ -1,20 +1,19 @@
 import {
   Button,
-  Card,
-  Grid,
-  CardContent,
   FormControl,
   OutlinedInput,
   Typography,
   CircularProgress,
+  Container,
+  InputAdornment,
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import copy from "copy-to-clipboard";
-import axios from "axios";
-import "react-toastify/dist/ReactToastify.css";
-import { lightBlue } from "@mui/material/colors";
+import hommeImg from "../asset/home-background.gif";
+import NavBar from "./NavBar";
+import AxiosService from "../services/AxiosService";
 
 function Home() {
   const [url, setUrl] = useState(null);
@@ -25,37 +24,29 @@ function Home() {
     setUrl(e.target.value);
   }
 
-  const jsonConfig = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
   function shortenUrl() {
-    toast.promise(
-      axios.post("http://localhost:62762/url/shortenUrl", url, jsonConfig),
-      {
-        pending: {
-          render() {
-            setNewRequest(true);
-            setLoading(true);
-            return "Shortening...";
-          },
+    toast.promise(AxiosService.post("shortenUrl", url), {
+      pending: {
+        render() {
+          setNewRequest(true);
+          setLoading(true);
+          return "Shortening...";
         },
-        success: {
-          render(res) {
-            setNewRequest(false);
-            setUrl(window.location.href + res.data.data);
-            return "Shortened successfully";
-          },
+      },
+      success: {
+        render(res) {
+          setNewRequest(false);
+          setUrl(window.location.href + res.data.data);
+          return "Shortened successfully";
         },
-        error: {
-          render() {
-            return "Invalid Url. Please try again.";
-          },
+      },
+      error: {
+        render() {
+          setLoading(false);
+          return "Invalid Url. Please try again.";
         },
-      }
-    );
+      },
+    });
   }
 
   function copyToClipboard() {
@@ -71,60 +62,101 @@ function Home() {
 
   return (
     <>
-      <Grid
-        container
-        spacing={0}
-        direction="column"
-        alignItems="center"
-        justifyContent="center"
-        style={{ minHeight: "100vh", backgroundColor: lightBlue }}
-      >
-        <Grid item xs={5}>
-          <Box mx="auto">
-            <Card>
-              <CardContent>
-                <Typography align="center" variant="h4">
-                  Shorten Now
-                </Typography>
-                <FormControl disabled={!newRequest}>
-                  <OutlinedInput
-                    value={url || ""}
-                    onChange={handleChange}
-                    endAdornment={
-                      !newRequest && (
-                        <Button variant="outlined" onClick={copyToClipboard}>
-                          Copy
-                        </Button>
-                      )
-                    }
-                    placeholder="Enter your url here"
-                    sx={{ my: 2 }}
+      <NavBar />
+      <Box sx={{ textAlign: "center" }}>
+        <img src={hommeImg} alt="home-screen-image" />
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Typography
+          variant="h5"
+          sx={{
+            fontFamily: "monospace",
+            fontWeight: 700,
+            letterSpacing: ".3rem",
+            color: "inherit",
+          }}
+        >
+          Just&nbsp;
+        </Typography>
+        <Typography
+          variant="h5"
+          sx={{
+            fontFamily: "monospace",
+            fontWeight: 700,
+            letterSpacing: ".3rem",
+            color: "primary.main",
+          }}
+        >
+          Paste&nbsp;
+        </Typography>
+        <Typography
+          variant="h5"
+          sx={{
+            fontFamily: "monospace",
+            fontWeight: 700,
+            letterSpacing: ".3rem",
+            color: "inherit",
+          }}
+        >
+          Your URL or&nbsp;
+        </Typography>
+        <Typography
+          variant="h5"
+          sx={{
+            fontFamily: "monospace",
+            fontWeight: 700,
+            letterSpacing: ".3rem",
+            color: "primary.main",
+          }}
+        >
+          Ctrl+V
+        </Typography>
+      </Box>
+      <Box sx={{ textAlign: "center" }}>
+        <Container>
+          <FormControl disabled={!newRequest} fullWidth>
+            <OutlinedInput
+              value={url || ""}
+              onChange={handleChange}
+              endAdornment={
+                !newRequest && (
+                  <Button
+                    variant="outlined"
+                    onClick={copyToClipboard}
                     size="small"
-                  />
-                  {newRequest ? (
-                    <Button
-                      onClick={shortenUrl}
-                      variant="contained"
-                      disabled={!url}
-                      size="small"
-                    >
-                      {loading ? <CircularProgress /> : "Shorten URl"}
-                    </Button>
-                  ) : (
-                    <Button
-                      onClick={handleNewRequest}
-                      variant="contained"
-                      size="small"
-                    >
-                      Shorten another url
-                    </Button>
-                  )}
-                </FormControl>
-              </CardContent>
-            </Card>
-          </Box>
-        </Grid>
-      </Grid>
+                  >
+                    Copy
+                  </Button>
+                )
+              }
+              placeholder="www.example.com"
+              sx={{ my: 2, py: 0.5 }}
+              size="small"
+              startAdornment={
+                <InputAdornment position="start">#</InputAdornment>
+              }
+            />
+            {newRequest ? (
+              <Button
+                onClick={shortenUrl}
+                variant="contained"
+                disabled={!url}
+                size="small"
+              >
+                {loading ? <CircularProgress /> : "Shorten URl"}
+              </Button>
+            ) : (
+              <Button
+                onClick={handleNewRequest}
+                variant="contained"
+                size="small"
+              >
+                Shorten another url
+              </Button>
+            )}
+          </FormControl>
+        </Container>
+      </Box>
     </>
   );
 }
