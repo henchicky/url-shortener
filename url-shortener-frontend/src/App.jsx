@@ -1,9 +1,7 @@
 import { ToastContainer } from "react-toastify";
+import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Home from "./pages/HomePage";
 import PageNotFound from "./pages/PageNotFound";
-import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
-import "./App.css";
 import AxiosService from "./services/AxiosService";
 
 function App() {
@@ -29,7 +27,7 @@ function App() {
   }
 
   return (
-    <>
+    <div style={{ height: "100vh" }}>
       <Routes>
         <Route index element={<Home />} />
         <Route path="404" element={<PageNotFound />} />
@@ -42,7 +40,7 @@ function App() {
         pauseOnFocusLoss
       />
       <ToastContainer />
-    </>
+    </div>
   );
 }
 

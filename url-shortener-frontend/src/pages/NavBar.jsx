@@ -1,7 +1,8 @@
 import { AppBar, Toolbar, Typography, Container } from "@mui/material";
+
 function NavBar() {
   return (
-    <AppBar position="static">
+    <AppBar position="fixed">
       <Container maxWidth="xl">
         <Toolbar>
           <Typography
