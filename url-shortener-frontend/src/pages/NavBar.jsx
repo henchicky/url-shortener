@@ -1,5 +1,5 @@
 import { AppBar, Toolbar, Typography, Container } from "@mui/material";
-import AppIcon from "../../public/vite.svg";
+import AppIcon from "../asset/logo-white.png";
 
 function NavBar() {
   return (
