@@ -36,7 +36,16 @@ function Home() {
 
   useHotkeys("ctrl+c, cmd+c", () => copyToClipboard());
 
-  useHotkeys("Enter", () => url && shortenUrl());
+  useHotkeys(
+    "Enter",
+    () => {
+      url && shortenUrl();
+      console.log("enter pressed");
+    },
+    {
+      enableOnTags: ["INPUT"],
+    }
+  );
 
   function handleChange(e) {
     setUrl(e.target.value);

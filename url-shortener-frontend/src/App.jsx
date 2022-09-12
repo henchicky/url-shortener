@@ -16,7 +16,7 @@ function App() {
         if (!urlPath.match(/^https?:\/\//i)) {
           urlPath = "http://" + urlPath;
         }
-        window.location.replace(urlPath);
+        window.location.href = urlPath;
         return null;
       })
       .catch((err) => {
@@ -34,7 +34,6 @@ function App() {
         <Route path="*" element={<Redirect />} />
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} closeOnClick />
-      <ToastContainer />
     </div>
   );
 }
