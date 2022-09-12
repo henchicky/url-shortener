@@ -1,15 +1,21 @@
 import { AppBar, Toolbar, Typography, Container } from "@mui/material";
+import AppIcon from "../../public/vite.svg";
 
 function NavBar() {
   return (
-    <AppBar position="fixed">
+    <AppBar position="fixed" color="primary">
       <Container maxWidth="xl">
         <Toolbar>
+          <img
+            src={AppIcon}
+            alt="S"
+            height="30px"
+            style={{ marginRight: "10px" }}
+          />
           <Typography
             variant="h6"
             noWrap
             sx={{
-              mr: 2,
               display: { xs: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
@@ -18,7 +24,7 @@ function NavBar() {
               textDecoration: "none",
             }}
           >
-            shorten.now
+            SHORTEN.NOW
           </Typography>
         </Toolbar>
       </Container>

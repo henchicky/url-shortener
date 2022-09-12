@@ -89,7 +89,9 @@ function Home() {
       >
         <Container maxWidth="sm" sx={{ textAlign: "center" }}>
           <img src={HommeImg} alt="home-screen-image" width="80%" />
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Box
+            sx={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}
+          >
             <Typography
               variant="h5"
               sx={{

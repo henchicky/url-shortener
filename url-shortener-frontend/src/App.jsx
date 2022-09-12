@@ -33,12 +33,7 @@ function App() {
         <Route path="404" element={<PageNotFound />} />
         <Route path="*" element={<Redirect />} />
       </Routes>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        closeOnClick
-        pauseOnFocusLoss
-      />
+      <ToastContainer position="top-right" autoClose={3000} closeOnClick />
       <ToastContainer />
     </div>
   );
