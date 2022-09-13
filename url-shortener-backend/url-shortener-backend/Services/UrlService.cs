@@ -14,13 +14,6 @@ public class UrlService : IUrlService
         _context = context;
     }
 
-    public bool IsValidUrl(string url)
-    {
-        const string pattern = @"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
-        var rgx = new Regex(pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
-       return rgx.IsMatch(url);
-    }
-
     public string ShortenUrl(string url)
     {
         var urlData = new UrlData
@@ -36,12 +29,19 @@ public class UrlService : IUrlService
     public string GetFullUrl(string url)
     {
         var result = _context.UrlDatas.FirstOrDefault(x => x.ShortUrl == url);
-        
+
         if (result != null)
         {
             return result.Url;
         }
-        
+
         throw new Exception("No such url found");
+    }
+
+    public bool IsValidUrl(string url)
+    {
+        const string pattern = @"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
+        var rgx = new Regex(pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        return rgx.IsMatch(url);
     }
 }

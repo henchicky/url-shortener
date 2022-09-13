@@ -1,73 +1,71 @@
-using NUnit.Framework;
+using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
+using url_shortener_backend.Helpers;
 using url_shortener_backend.Services;
 
 namespace url_shortener_backend.unit_tests;
 
 [TestFixture()]
-public class UrlControllerTest
+public class UrlServiceTest
 {
     private IUrlService _urlService;
-    
+    private DbContextOptions<DataContext> options;
+    private DataContext _context;
+
     [SetUp]
     public void Setup()
     {
-        // _urlService
+        options = new DbContextOptionsBuilder<DataContext>()
+            .UseInMemoryDatabase(databaseName: "UrlDateDataBase")
+            .Options;
+        _context = new DataContext(options);
+        _urlService = new UrlService(_context);
     }
 
-    [TestCase("123456")]
-    public void GetFullUrl_ValidString_ReturnsFullPath(string url)
-    {
-        //Arrange
-        _urlService.GetFullUrl(url);
-
-        //Act
-
-        //Assert
-    }
-    
-    [TestCase("invalidurl")]
-    public void GetFullUrl_InalidString_ThrowsError(string url)
-    {
-        //Arrange
-        _urlService.GetFullUrl(url);
-        //Act
-
-        //Assert
-    }
-    
-    [TestCase("http://www.youtube.com")]
-    [TestCase("https://www.google.com/search?q=localhost+url&sxsrf=ALiCzsa8W6RYWssRSpDybjhbKeAnXtgV0g%3A1663070021281&ei=RW8gY77eEJjD3LUP_Nme6AE&oq=local&gs_lcp=Cgdnd3Mtd2l6EAMYADIECAAQQzIKCAAQsQMQgwEQQzIFCAAQkQIyBAgAEEMyCwgAEIAEELEDEIMBMg4IABCABBCxAxCDARDJAzIFCAAQkgMyBQgAEJIDMgUIABCABDILCAAQgAQQsQMQgwE6BAgjECc6EQguEIAEELEDEIMBEMcBENEDOgsILhCABBCxAxCDAToICC4QsQMQgwE6CAgAELEDEIMBOg4ILhCABBCxAxCDARDUAjoLCC4QgAQQxwEQ0QM6BQgAELEDOgUILhCABDoLCC4QgAQQsQMQ1AI6CAgAEIAEELEDSgQIQRgASgQIRhgAUABYywNgnA5oAHABeACAAXyIAaMDkgEDNC4xmAEAoAEBwAEB&sclient=gws-wiz")]
-    public void ShortenUrl_ValidUrl_ReturnsShortenPath(string url)
-    {
-        //Arrange
-        _urlService.ShortenUrl(url);
-        //Act
-
-        //Assert
-    }
-    
     [TestCase("www.y outube.com")]
     [TestCase("youtube")]
-    [TestCase("you,tube.com")]
-    [TestCase("youtube.com")]
-    public void ShortenUrl_InvalidUrl_ThrowsError(string url)
+    public void IsValidUrl_InvalidUrl_ReturnsFalse(string url)
     {
-        //Arrange
-        _urlService.ShortenUrl(url);
-
-        //Act
-
-        //Assert
+        var result = _urlService.IsValidUrl(url);
+        result.Should().BeFalse();
     }
 
-    private string InsertUrlIntoDb()
+    [TestCase("http://www.youtube.com")]
+    [TestCase("https://www.google.com")]
+    [TestCase("www.youtube.com")]
+    [TestCase("google.com")]
+    public void IsValidUrl_ValidUrl_ReturnsTrue(string url)
     {
-        return String.Empty;
+        var result = _urlService.IsValidUrl(url);
+        result.Should().BeTrue();
     }
 
-    [TearDown]
-    public void CleanUp()
+    [Test]
+    public void GetFullUrl_InalidUrl_ThrowsException()
     {
+        var urlToShorten = "www.google.com";
+        _urlService.ShortenUrl(urlToShorten);
+        Action act = () => _urlService.GetFullUrl("invalidUrl");
+
+        act.Should().Throw<Exception>().WithMessage("No such url found");
     }
 
+    [Test]
+    public void GetFullUrl_ValidShortUrl_ReturnsFullPath()
+    {
+        var urlToShorten = "www.google.com";
+        var shortenUrl = _urlService.ShortenUrl(urlToShorten);
+        var fullUrl = _urlService.GetFullUrl(shortenUrl);
+        fullUrl.Should().Be(urlToShorten);
+    }
+
+    [Test]
+    public void ShortenUrl_Url_InsertIntoDb()
+    {
+        var urlToShorten = "www.google.com";
+        var shortenUrl = _urlService.ShortenUrl(urlToShorten);
+        var urlData = _context.UrlDatas.First(x => x.ShortUrl == shortenUrl);
+
+        urlData.Should().NotBeNull();
+    }
 }
