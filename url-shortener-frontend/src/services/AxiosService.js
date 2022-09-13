@@ -5,8 +5,8 @@ const BACKEND_URL_PRODUCTION =
   "https://url-shortener-dotnet.herokuapp.com/url/";
 
 const AxiosService = axios.create({
-  baseURL: BACKEND_URL_PRODUCTION,
-  timeout: 5000,
+  baseURL: BACKEND_URL_LOCAL,
+  timeout: 15000,
   headers: {
     "Content-Type": "application/json",
   },
