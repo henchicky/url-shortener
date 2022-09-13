@@ -55,8 +55,6 @@ To run in **development server:**
 npm start
 ```
 
----
-
 ### Backend Usage
 
 ```
