@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://github.com/henchicky/url-shortener/blob/main/url-shortener-frontend/public/logo.png" alt="SHORTEN.NOW">
+  <img src="https://github.com/henchicky/url-shortener/blob/main/url-shortener-frontend/public/logo.png" alt="SHORTEN.NOW" width="50%">
 </h1>
 
 <div align="center">
