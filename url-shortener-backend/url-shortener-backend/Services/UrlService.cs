@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.WebUtilities;
+﻿using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.WebUtilities;
 using url_shortener_backend.Entities;
 using url_shortener_backend.Helpers;
 
@@ -15,7 +16,9 @@ public class UrlService : IUrlService
 
     public bool IsValidUrl(string url)
     {
-        return Uri.IsWellFormedUriString(url, UriKind.RelativeOrAbsolute);
+        const string pattern = @"^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$";
+        var rgx = new Regex(pattern, RegexOptions.Compiled | RegexOptions.IgnoreCase);
+       return rgx.IsMatch(url);
     }
 
     public string ShortenUrl(string url)
