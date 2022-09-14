@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using url_shortener_backend.Helpers;
