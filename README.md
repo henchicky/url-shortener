@@ -21,9 +21,7 @@ SHORTEN.NOW is a url shortener hosted on heroku and can be access at [https://sh
 
 Frontend is written in [ReactJS 18](https://reactjs.org/), bootstrapped with [MUI](https://mui.com/).
 
-Backend is written in [.NET Core 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0).
-
-Database used is [PostgreSQL](https://www.postgresql.org/).
+Backend is written in [.NET Core 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0) and the database used is [PostgreSQL](https://www.postgresql.org/).
 
 ### Frontend Usage
 
